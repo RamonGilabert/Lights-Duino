@@ -16,12 +16,11 @@ ISR(TIMER2_OVF_vect) {
   }
 }
  
-// initialize the timer 2 service
 void init_timer2(void) {
   TCCR2A |= (1 << WGM21) | (1 << WGM20);   
-  TCCR2B |= 0x07;                         // by clk/1024
-  ASSR |= (0<<AS2);                       // Use internal clock - external clock not used in Arduino
-  TIMSK2 |= 0x01;                         //Timer2 Overflow Interrupt Enable
+  TCCR2B |= 0x07;
+  ASSR |= (0<<AS2);
+  TIMSK2 |= 0x01;
   TCNT2 = 0;
   sei();   
 }
@@ -42,12 +41,12 @@ void setup() {
 
 void control(void) {
   if (Serial.available()) {
-    val = Serial.read();
+    information = (char)Serial.read();
   }
 
-  printf(val);
-  
-  val = ' ';
+  printf("name = %p\n", information);
+
+  information = ' ';
     
   delay(100);
 }
@@ -67,3 +66,4 @@ void cleantime() {
   timeout = 0;
   state = 0;
 }
+
