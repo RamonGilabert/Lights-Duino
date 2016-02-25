@@ -33,7 +33,7 @@ void setup() {
   pinMode(greenLED, OUTPUT);
   pinMode(blueLED, OUTPUT);
 
-  pinMode(2, INPUT);
+  pinMode(1, INPUT);
  
   attachInterrupt(0, cleantime, FALLING);
   init_timer2();
@@ -51,7 +51,6 @@ void control(void) {
   delay(100);
 }
 
-// control loop for the program
 void loop() {
   switch(state) {
     case 0:
