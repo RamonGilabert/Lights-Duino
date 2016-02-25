@@ -1,5 +1,5 @@
-unsigned int timeout=0;
-unsigned char state=0;
+unsigned int timeout = 0;
+unsigned char state = 0;
  
 char information;
 int informationLED = 7;
@@ -26,62 +26,44 @@ void init_timer2(void) {
   sei();   
 }
 
-// sets up the program
 void setup() {
-  // open the serial port
   Serial.begin(9600);
 
-  // bind the ledpin as output
-  pinMode(ledpin, OUTPUT);
+  pinMode(informationLED, OUTPUT);
+  pinMode(redLED, OUTPUT);
+  pinMode(greenLED, OUTPUT);
+  pinMode(blueLED, OUTPUT);
 
-  // bind pin 2 as input
-  pinMode(2,INPUT);
+  pinMode(2, INPUT);
  
-  // interrupt for reading from the bluetooth connection 
   attachInterrupt(0, cleantime, FALLING);
   init_timer2();
 }
 
-// function for controlling the led
 void control(void) {
-  if (Serial.available()) {               // if data is available to read
-    val = Serial.read();                  // read it and store it in 'val'
+  if (Serial.available()) {
+    val = Serial.read();
   }
 
-  if (val == '1') {                       // if '1' was received
-    Serial.println('1');                  // display the new value
-    digitalWrite(ledpin, HIGH);           // turn ON the LED
-  } else if (val == '0') { 
-    Serial.println('0');                  // display the new value
-    digitalWrite(ledpin, LOW);            // otherwise turn it OFF
-  } else if (val == 's') {                // if 's' is received display the current status of the led
-    if (digitalRead(ledpin) == HIGH) {
-      Serial.println('1');
-    } else {
-      Serial.println('0');
-    } 
-  }
+  printf(val);
   
   val = ' ';
     
-  delay(100);                             // wait 100ms for next reading
+  delay(100);
 }
 
 // control loop for the program
 void loop() {
   switch(state) {
     case 0:
-      // no bt connection, do nothing
       break;
-   
     case 1:
-      // when there is a bt connection enter the control function
       control(); 
       break;
   }
 }
  
 void cleantime() {
-  timeout=0;
-  state=0;
+  timeout = 0;
+  state = 0;
 }
