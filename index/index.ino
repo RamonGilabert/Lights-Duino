@@ -3,12 +3,11 @@
 unsigned int timeout = 0;
 unsigned char state = 0;
  
-byte information[6];
+byte information[3];
 int informationLED = 7;
 int redLED = 10;
 int greenLED = 11;
 int blueLED = 12;
-int again = 1;
 
 ISR(TIMER2_OVF_vect) { 
   TCNT2 = 0;
@@ -44,18 +43,14 @@ void setup() {
 }
 
 void control(void) {
-  if (Serial.available() == 6 && again == 1) {
-    again = 0;
-    
-    for (int i = 0; i <= 5; i++) {
+  if (Serial.available() == 3) {
+    for (int i = 0; i <= 2; i++) {
       information[i] = Serial.read(); 
     }
 
-    for (int i = 0; i <= 5; i++) {
-       Serial.println(information[i]);
-    }
-    
-    again = 1;
+    analogWrite(redLED, information[0]);
+    analogWrite(greenLED, information[1]);
+    analogWrite(blueLED, information[2]);
   }
     
   delay(1500);
