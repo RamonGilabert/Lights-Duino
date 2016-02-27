@@ -1,7 +1,9 @@
+#include <SoftwareSerial.h>
+
 unsigned int timeout = 0;
 unsigned char state = 0;
  
-char information;
+char information[] = "";
 int informationLED = 7;
 int redLED = 10;
 int greenLED = 11;
@@ -33,7 +35,7 @@ void setup() {
   pinMode(greenLED, OUTPUT);
   pinMode(blueLED, OUTPUT);
 
-  pinMode(1, INPUT);
+  pinMode(0, INPUT);
  
   attachInterrupt(0, cleantime, FALLING);
   init_timer2();
@@ -41,14 +43,16 @@ void setup() {
 
 void control(void) {
   if (Serial.available()) {
-    information = (char)Serial.read();
+    //information = (char)Serial.read();
   }
 
-  printf("name = %p\n", information);
+  Serial.print(information);
 
-  information = ' ';
+  //information = (char)[];
+
+  analogWrite(redLED, 255);
     
-  delay(100);
+  delay(1500);
 }
 
 void loop() {
