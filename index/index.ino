@@ -52,8 +52,6 @@ void control(void) {
     analogWrite(greenLED, information[1]);
     analogWrite(blueLED, information[2]);
   }
-    
-  delay(1500);
 }
 
 void loop() {
