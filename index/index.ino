@@ -25,17 +25,19 @@ unsigned char state = 0;
  
 byte information[3];
 int informationLED = 7;
-int redLED = 10;
-int greenLED = 11;
-int blueLED = 12;
+int redLED = 3;
+int greenLED = 5;
+int blueLED = 6;
 
 void setup() {
-  Serial.begin(57600);
-
   pinMode(informationLED, OUTPUT);
   pinMode(redLED, OUTPUT);
   pinMode(greenLED, OUTPUT);
   pinMode(blueLED, OUTPUT);
+
+  analogWrite(redLED, 0);
+  analogWrite(greenLED, 0);
+  analogWrite(blueLED, 0);
 
   pinMode(0, INPUT);
 
@@ -43,14 +45,12 @@ void setup() {
 }
 
 void loop() {
-  if (ble_available()) {
-    for (int i = 0; i <= 2; i++) {
-      information[i] = ble_read(); 
-    }
-
-    analogWrite(redLED, information[0]);
-    analogWrite(greenLED, information[1]);
-    analogWrite(blueLED, information[2]);
+  if (ble_available() == 3) {
+    analogWrite(redLED, ble_read());
+    analogWrite(greenLED, ble_read());
+    analogWrite(blueLED, ble_read());
   }
+
+  ble_do_events();
 }
 
